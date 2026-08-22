@@ -8,10 +8,11 @@ WORKDIR /app
 COPY requirements.txt .
 
 # 4. Install Python dependencies (add curl if you use MLflow local tracking URI)
-RUN pip install --upgrade pip \
-    && pip install -r requirements.txt \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
+RUN python -m pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir --force-reinstall numpy==1.26.4 pandas==2.1.4 pyarrow==15.0.2 pyyaml==6.0.2 packaging==25.0 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 # 5. Copy the entire project into the image
 COPY . .
 
